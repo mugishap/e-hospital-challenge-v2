@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  fe:
+    image: fe:latest
+    build: ./fe
+    command: npm start
+    container_name: e-hospital-fe
+    depends_on:
+      - bn
+    volumes:
+      - './:/fe'
+    ports:
+      - 3000:3000
+    expose:
+      - '3000:3000'
+    restart: unless-stopped
+  bn:
+    image: bn:latest
+    build: ./bn
+    container_name: e-hospital-bn
+    depends_on:
+      - db
+    volumes:
+      - ./:/src/bn
+    ports:
+      - '4000:4000'
+    expose:
+      - '4000:4000'
+    environment:
+      HOST: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}
+    restart: unless-stopped
+  db:
+    image: db:latest
+    build: ./db
+    container_name: e-hospital-db
+    volumes:
+      - ./:/db
+    ports:
+      - '8090:8090'
+    expose:
+      - '8090:8090'
+    restart: unless-stopped
