@@ -1,14 +1,9 @@
 package com.boaz.eHospital.utils;
 
 import java.security.Key;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
-
-import com.boaz.eHospital.user.models.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
