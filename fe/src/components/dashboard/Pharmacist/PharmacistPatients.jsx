@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import swal from "sweetalert2";
+import { toast } from 'react-toastify'
 
 const bearer_token = localStorage.getItem("userToken")?.replace(/['"]+/g, "");
 
@@ -72,31 +72,29 @@ const PharmacistPatients = () => {
           }
         );
         if (res.data.error) {
-          swal.fire("Failed!", res.data.error, "error");
+          toast.error(res.data.error)
         } else {
-          swal.fire("Success", res.data.message, "success");
+          toast.success(res.data.message)
         }
       }
     } catch (error) {
       console.log(error);
-      swal.fire(
-        "Failed!",
+      toast.error(
         error.response.data.error
           ? error.response.data.error
           : error.response.data.message,
-        "error"
       );
     }
   };
 
   return (
     <>
-      <div className="userList margin-auto">
+      <div className=" margin-auto" style={{ width: 'fit-content' }}>
         <header style={{ display: "flex", justifyContent: "space-around" }}>
-          <h1>A list of your patients who have consultation</h1>
+          <h1>Patients with their prescriptions</h1>
         </header>
         {patients.length > 0 ? (
-          <table>
+          <table style={{ width: "90vw" }}>
             <thead>
               <tr>
                 <th>Full names</th>
@@ -123,7 +121,7 @@ const PharmacistPatients = () => {
                           setModalOpen(true);
                         }}
                         style={{
-                          backgroundColor: "#2ecc71",
+                          backgroundColor: "#1799b7",
                           color: "#fff",
                           border: "none",
                           padding: "5px 10px",
@@ -131,7 +129,7 @@ const PharmacistPatients = () => {
                           cursor: "pointer",
                         }}
                       >
-                        Give prescription
+                        Prescribe
                       </button>
                     </td>
                   </tr>
@@ -174,7 +172,7 @@ const PharmacistPatients = () => {
                 }}
                 required
               >
-                <option>Select Medecine</option>
+                <option>Choose Medecine</option>
                 {medecines.length > 0 &&
                   medecines.map((medicine) => {
                     console.log(medicine.medName);

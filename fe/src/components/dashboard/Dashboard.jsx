@@ -11,10 +11,9 @@ const Dashboard = () => {
 
   let user = jwt_decode(bearer_token);
   localStorage.setItem("user", JSON.stringify(user));
-  console.log("hahaha..", user.role, user);
 
   return (
-    <>
+    <div>
       <Navbar />
 
       {user?.role === "Patient" && <PhysicianList />}
@@ -22,7 +21,7 @@ const Dashboard = () => {
       {user?.role === "Physician" && <PhysicianPatients />}
 
       {user?.role === "Pharmacist" && <PharmacistPatients />}
-    </>
+    </div>
   );
 };
 

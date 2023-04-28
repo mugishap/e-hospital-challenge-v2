@@ -8,7 +8,10 @@ const PatientNavLinks = () => {
           fontSize: "22px",
           fontWeight: "100",
           textDecoration: "none",
-          color: "gray",
+          borderRadius: "20px",
+          padding: "1vw",
+          backgroundColor: window.location.pathname === "/dashboard" ? "#1799b7" : "white",
+          color: window.location.pathname === "/dashboard" ? "white" : "gray"
         }}
         to={"/dashboard"}
       >
@@ -19,7 +22,10 @@ const PatientNavLinks = () => {
           fontSize: "22px",
           fontWeight: "100",
           textDecoration: "none",
-          color: "gray",
+          borderRadius: "20px",
+          padding: "1vw",
+          backgroundColor: window.location.pathname === "/pharmacists" ? "#1799b7" : "white",
+          color: window.location.pathname === "/pharmacists" ? "white" : "gray"
         }}
         to={"/pharmacists"}
       >

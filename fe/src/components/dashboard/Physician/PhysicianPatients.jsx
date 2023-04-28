@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import swal from "sweetalert2";
+import { toast } from 'react-toastify'
 
 const bearer_token = localStorage.getItem("userToken")?.replace(/['"]+/g, "");
 
@@ -47,19 +47,17 @@ const PhysicianPatients = () => {
           }
         );
         if (res.data.error) {
-          swal.fire("Failed!", res.data.error, "error");
+          toast.error(res.data.error)
         } else {
-          swal.fire("Success", res.data.message, "success");
+          toast.success(res.data.message)
         }
       }
     } catch (error) {
       console.log(error);
-      swal.fire(
-        "Failed!",
+      toast.error(
         error.response.data.error
           ? error.response.data.error
           : error.response.data.message,
-        "error"
       );
     }
   };
@@ -125,7 +123,7 @@ const PhysicianPatients = () => {
             <div className="inputWrapper">
               <input
                 type="text"
-                placeholder="Disease detail"
+                placeholder="Disease details"
                 onChange={(e) => {
                   setDisease(e.target.value);
                 }}
@@ -136,6 +134,7 @@ const PhysicianPatients = () => {
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
+                setModalOpen(false)
                 handleGiveConsultation();
               }}
             >

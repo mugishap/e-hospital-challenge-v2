@@ -17,18 +17,22 @@ const Navbar = () => {
 
   return (
     <div
-      className="table-wrapper"
       style={{
         display: "flex",
         justifyContent: "space-between",
-        padding: "0.8rem",
-        alignItems: 'center'
+        padding: "1vh 1vw",
+        alignItems: 'center',
+        background: "#fff",
+        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+        width: "100%",
+
       }}
     >
+      <div>Dashboard</div>
       <div
         style={{
           display: "flex",
-          gap: "30px",
+          gap: "35px",
         }}
       >
         {user?.role === "Patient" && <PatientNavLinks />}

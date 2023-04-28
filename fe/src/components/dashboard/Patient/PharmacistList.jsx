@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { CSVLink } from "react-csv";
 import axios from "axios";
-import swal from "sweetalert2";
+import { BiDownload } from "react-icons/bi";
+import { toast } from 'react-toastify'
 
 const bearer_token = localStorage.getItem("userToken")?.replace(/['"]+/g, "");
 
@@ -70,7 +71,7 @@ const PharmacistList = () => {
     }
   }, []);
 
-  const handleSelectPharmacist = async (pharmacistPhone) => {
+  const handleChoosePharmacist = async (pharmacistPhone) => {
     try {
       if (bearer_token) {
         const res = await axios.post(
@@ -84,19 +85,17 @@ const PharmacistList = () => {
           }
         );
         if (res.data.error) {
-          swal.fire("Failed!", res.data.error, "error");
+          toast.error(res.data.error);
         } else {
-          swal.fire("Success", res.data.message, "success");
+          toast.success(res.data.message);
         }
       }
     } catch (error) {
       console.log(error);
-      swal.fire(
-        "Failed!",
+      toast.error(
         error.response.data.error
           ? error.response.data.error
           : error.response.data.message,
-        "error"
       );
     }
   };
@@ -142,10 +141,10 @@ const PharmacistList = () => {
                     <td>{user.age}</td>
                     <td>{user.gender}</td>
                     <td>
-                      <SelectBtn
+                      <ChooseBtn
                         selectHandler={(e) => {
                           e.preventDefault();
-                          handleSelectPharmacist(user.phone);
+                          handleChoosePharmacist(user.phone);
                         }}
                       />
                     </td>
@@ -163,21 +162,35 @@ const PharmacistList = () => {
                 justifyContent: "space-between",
                 alignItems: "center",
                 marginBottom: "20px",
+                width:"80%"
               }}
             >
-              <h2 style={{ display: "flex" }}>Latest Prescription</h2>
-              <CSVLink
-                data={csvData}
-                filename="prescription.csv"
-                target="_blank"
-                style={{
-                  textDecoration: "none",
-                  color: "#1799b7",
-                  fontWeight: "bold",
-                }}
-              >
-                download prescription
-              </CSVLink>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%"
+              }}>
+                <h2 style={{ display: "flex" }}>Prescriptions</h2>
+                <CSVLink
+                  data={csvData}
+                  filename="prescriptions.csv"
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    background: "#1799b7",
+                    width: "35px",
+                    height: "35px",
+                    borderRadius: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center"
+                  }}
+                >
+                  <BiDownload style={{ marginTop: "4px" }} size={20} />
+                </CSVLink>
+              </div>
             </div>
 
             {userPrescription.disease ? (
@@ -202,10 +215,10 @@ const PharmacistList = () => {
   );
 };
 
-function SelectBtn(props) {
+function ChooseBtn(props) {
   return (
     <button className="table-btn" onClick={props.selectHandler}>
-      Select
+      Choose
     </button>
   );
 }

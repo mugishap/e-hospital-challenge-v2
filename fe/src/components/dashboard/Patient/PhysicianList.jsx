@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import swal from "sweetalert2";
+import { toast } from 'react-toastify'
 
 const bearer_token = localStorage.getItem("userToken")?.replace(/['"]+/g, "");
 
@@ -58,7 +58,7 @@ const PhysicianList = () => {
     }
   }, []);
 
-  const handleSelectPhysician = async (physicianEmail) => {
+  const handleChoosePhysician = async (physicianEmail) => {
     try {
       if (bearer_token) {
         const res = await axios.post(
@@ -72,19 +72,17 @@ const PhysicianList = () => {
           }
         );
         if (res.data.error) {
-          swal.fire("Failed!", res.data.error, "error");
+          toast.error(res.data.error)
         } else {
-          swal.fire("Success", res.data.message, "success");
+          toast.success(res.data.message)
         }
       }
     } catch (error) {
       console.log(error);
-      swal.fire(
-        "Failed!",
+      toast.error(
         error.response.data.error
           ? error.response.data.error
           : error.response.data.message,
-        "error"
       );
     }
   };
@@ -115,10 +113,10 @@ const PhysicianList = () => {
                     <td>{user.age}</td>
                     <td>{user.gender}</td>
                     <td>
-                      <SelectBtn
+                      <ChooseBtn
                         selectHandler={(e) => {
                           e.preventDefault();
-                          handleSelectPhysician(user.email);
+                          handleChoosePhysician(user.email);
                         }}
                       />
                     </td>
@@ -133,7 +131,7 @@ const PhysicianList = () => {
       </div>
       <div className="results">
         <div className="result">
-          <h2>Latest Consultations</h2>
+          <h2 style={{marginBottom:"10px"}}>Consultations</h2>
           {userConsultation.disease ? (
             <div className="single-item">
               <h3>Disease: {userConsultation.disease}</h3>
@@ -148,10 +146,10 @@ const PhysicianList = () => {
   );
 };
 
-function SelectBtn(props) {
+function ChooseBtn(props) {
   return (
     <button className="table-btn" onClick={props.selectHandler}>
-      Select
+      Choose
     </button>
   );
 }

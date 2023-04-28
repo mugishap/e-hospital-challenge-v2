@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import lockSvg from "../assets/lock.svg";
 import eyeSvg from "../assets/eye.svg";
-import swal from "sweetalert2";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
 
@@ -26,59 +26,33 @@ const Login = () => {
       console.log(res);
       localStorage.setItem("userToken", JSON.stringify(res.data.payload));
       res.data.error
-        ? swal.fire("Failed!", res.data.error, "error")
-        : swal.fire("Success", res.data.message, "success");
+        ? toast.error(res.data.error)
+        : toast.success(res.data.message);
       res.data.message.includes("Logged in Successfully!") &&
         navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      swal.fire(
-        "Failed!",
+      toast.error(
         error.response.data.error
           ? error.response.data.error
           : error.response.data.message,
-        "error"
       );
     }
   };
   return (
-    <div className="fomContainer">
+    <div className="fomContainer" style={{ boxShadow: "0 0 10px rgba(0,0,0,0.2)", borderRadius: "10px" }}>
+      <h2>Login as {role}</h2>
       <form onSubmit={handleLogin}>
-        <div className="header">
-          <h2>Login as {role}</h2>
-          <p>
-            Don't have an account ?{" "}
-            <Link to="/register" className="link">
-              Register
-            </Link>
-          </p>
-          {toggle === 2 && (
-            <p
-              className="link"
-              onClick={() => {
-                setToggle(1);
-              }}
-            >
-              Back
-            </p>
-          )}
-        </div>
         {toggle === 1 && (
           <>
             <div className="input">
-              <select
-                name="roles"
-                id="roles"
-                onChange={(e) => {
-                  setRole(e.target.value);
-                }}
-                required
-              >
-                <option>Select Role</option>
-                <option value="Patient">Patient</option>
-                <option value="Physician">Physician</option>
-                <option value="Pharmacist">Pharmacist</option>
-              </select>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", margin: "2vh 0vw", width: "100%" }}>
+                {
+                  ["Pharmacist", "Physician", "Patient"].map((_role, index) => (
+                    <div key={index} style={{ color: role === _role ? "white" : "#1799b7", backgroundColor: role === _role ? "#1799b7" : "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: "2vh 1vw", width: "30%", border: "3px solid #1799b7", borderRadius: "50px" }} onClick={() => setRole(_role)}>{_role}</div>
+                  ))
+                }
+              </div>
             </div>
             <div className="btn-container">
               <button
@@ -111,7 +85,7 @@ const Login = () => {
             <div className="input password-input">
               <input
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Enter your password (4-6 Characters)"
                 onChange={(e) => {
                   setLoginInfo({ ...loginInfo, password: e.target.value });
                 }}
@@ -121,7 +95,7 @@ const Login = () => {
                 <img src={eyeSvg} />
               </div>
             </div>
-            <div className="btn-container">
+            <div className="btn-container" >
               <div className="lock">
                 <img src={lockSvg} />
               </div>
@@ -147,7 +121,7 @@ const Login = () => {
             <div className="input password-input">
               <input
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Enter your password (7-8 Characters)"
                 onChange={(e) => {
                   setLoginInfo({ ...loginInfo, password: e.target.value });
                 }}
@@ -183,7 +157,7 @@ const Login = () => {
             <div className="input password-input">
               <input
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Enter your password (9-10 Characters)"
                 onChange={(e) => {
                   setLoginInfo({ ...loginInfo, password: e.target.value });
                 }}
@@ -203,6 +177,31 @@ const Login = () => {
             </div>
           </>
         )}
+        <div className="header">
+
+          <p>
+            Don't have an account ?{" "}
+            <Link to="/register" className="link">
+              Register
+            </Link>
+          </p>
+          {toggle === 2 && (
+            <button
+              style={{
+                backgroundColor: "#1799b7",
+                color: "white",
+                border: "none",
+                padding: "10px 30px",
+                borderRadius: "10px",
+              }}
+              onClick={() => {
+                setToggle(1);
+              }}
+            >
+              Back
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

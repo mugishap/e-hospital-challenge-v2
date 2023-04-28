@@ -1,7 +1,7 @@
 import axios from "axios";
-
+ 
 const HOST = process.env.HOST || "http://localhost";
-const URL = `${HOST}:8090/e_hospital_war_exploded`;
+const URL = `${HOST}:8090/e_hospital_war`;
 
 export const register = async (req, res) => {
   let data = req.body;

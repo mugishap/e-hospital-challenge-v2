@@ -8,22 +8,27 @@ const PharmacistNavLinks = () => {
           fontSize: "22px",
           fontWeight: "100",
           textDecoration: "none",
-          color: "gray",
+          borderRadius: "20px",
+          padding: "1vw",
+          backgroundColor: window.location.pathname === "/dashboard" ? "#1799b7" : "white",
+          color: window.location.pathname === "/dashboard" ? "white" : "gray"
         }}
         to={"/dashboard"}
       >
-        <h6>patients</h6>
+        <h6>Patients</h6>
       </Link>
       <Link
         style={{
           fontSize: "22px",
           fontWeight: "100",
           textDecoration: "none",
-          color: "gray",
-        }}
+          borderRadius: "20px",
+          padding: "1vw",
+          backgroundColor: window.location.pathname === "/medicines" ? "#1799b7" : "white",
+          color: window.location.pathname === "/medicines" ? "white" : "gray"        }}
         to={"/medicines"}
       >
-        <h6>medecines</h6>
+        <h6>Medecines</h6>
       </Link>
     </>
   );

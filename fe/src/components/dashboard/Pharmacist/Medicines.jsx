@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import swal from "sweetalert2";
-import Navbar from "../Navbar";
+import { toast } from 'react-toastify'
 
+import Navbar from "../Navbar";
+import { BiPlus } from 'react-icons/bi'
 const Medicines = () => {
   const [medecines, setMedecines] = useState([]);
   const [medData, setMedData] = useState({});
@@ -51,20 +52,18 @@ const Medicines = () => {
           }
         );
         if (res.data.error) {
-          swal.fire("Failed!", res.data.error, "error");
+          toast.error(res.data.error)
         } else {
-          swal.fire("Success", res.data.message, "success");
+          toast.success(res.data.message)
           setMedecines([...medecines, medData]);
         }
       }
     } catch (error) {
       console.log(error);
-      swal.fire(
-        "Failed!",
+      toast.error(
         error.response.data.error
           ? error.response.data.error
           : error.response.data.message,
-        "error"
       );
     }
   };
@@ -76,14 +75,13 @@ const Medicines = () => {
       <div className="userList margin-auto">
         <header style={{ display: "flex", justifyContent: "space-between" }}>
           <h1>Available Medecines</h1>
-          <button className="add" onClick={() => setModalOpen(true)}>Add Medecine</button>
-
+          <button className="add" style={{ cursor: "pointer" }} onClick={() => setModalOpen(true)}><BiPlus size={25} /></button>
         </header>
         <table>
           <tr>
-            <th>med-name</th>
-            <th>med-price</th>
-            <th>expirationDate</th>
+            <th>Medicine Name</th>
+            <th>Medicine Price</th>
+            <th>Expiration Date</th>
           </tr>
           {medecines.map((med) => {
             return (
@@ -101,7 +99,6 @@ const Medicines = () => {
         <div className="modal-content">
           <div className="header">
             <div className="close" onClick={() => {
-              console.log("NMNMM")
               setModalOpen(false)
             }}>X</div>
           </div>
@@ -111,12 +108,12 @@ const Medicines = () => {
               setModalOpen(false)
             }}>
               <div className="header">
-                <h2>Add medecines</h2>
+                <h2 style={{marginBottom:"10px"}}>Add New Medicine</h2>
               </div>
               <div className="input">
                 <input
                   type="text"
-                  placeholder="Enter med name"
+                  placeholder="Medicine name"
                   onChange={(e) => {
                     setMedData({ ...medData, medName: e.target.value });
                   }}
@@ -126,7 +123,7 @@ const Medicines = () => {
               <div className="input">
                 <input
                   type="number"
-                  placeholder="Enter med price"
+                  placeholder="Price"
                   onChange={(e) => {
                     setMedData({ ...medData, medPrice: e.target.value });
                   }}
@@ -136,7 +133,6 @@ const Medicines = () => {
               <div className="input">
                 <input
                   type="date"
-                  placeholder="Enter med name"
                   onChange={(e) => {
                     setMedData({ ...medData, expirationDate: e.target.value });
                   }}

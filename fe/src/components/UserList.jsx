@@ -90,7 +90,7 @@ const UserList = () => {
           Logout
         </Button>
       </div>
-      <div className="userList">
+      <div className="">
         <header style={{display: "flex", justifyContent:"space-around"}}>
           <h1>Users List</h1>
           {/* <Button className="btn"> */}
